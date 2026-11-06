@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-from typing import Optional, Union
+from typing import Optional, Union, cast
 
 import redis
 
@@ -28,7 +28,8 @@ class RedisPersistence(PersistenceHandler):
                              ssl=self.is_ssl)
 
     def save_state(self, state: bytes) -> None:
-        self.r.set(self.redis_key, state)
+        # redis-py accepts a memoryview key at runtime, its stubs do not.
+        self.r.set(cast(Union[bytes, str], self.redis_key), state)
 
     def load_state(self) -> Optional[bytes]:
-        return self.r.get(self.redis_key)
+        return self.r.get(cast(Union[bytes, str], self.redis_key))

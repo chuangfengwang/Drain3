@@ -18,4 +18,4 @@ poetry build
 twine check dist/*
 
 VERSION="$(poetry version --short)"
-twine upload "dist/drain3-${VERSION}.py3-none-any.whl" "dist/drain3-${VERSION}.tar.gz"
+twine upload "dist/drain3-${VERSION}-py3-none-any.whl" "dist/drain3-${VERSION}.tar.gz"

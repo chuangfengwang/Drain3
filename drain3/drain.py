@@ -174,7 +174,9 @@ class DrainBase(ABC):
             self.print_node(token, child, depth + 1, file, max_clusters)
 
         for cid in node.cluster_ids[:max_clusters]:
-            cluster = self.id_to_cluster[cid]
+            # Use get() instead of [] : a cluster id may already have been evicted from the
+            # LRU cache, and a missing key must not touch the cache order.
+            cluster = self.id_to_cluster.get(cid)
             out_str = '\t' * (depth + 1) + str(cluster)
             print(out_str, file=file)
 
